@@ -33,7 +33,7 @@ Per verificar-ho es consulten les últimes línies de `/etc/group` amb `tail`. C
 
 ![Creació dels grups](01-grups-creacio.png)
 
-![Últimes línies de /etc/group](images/02-grups-tail-etc-group.png)
+![Últimes línies de /etc/group](02-grups-tail-etc-group.png)
 
 ### Conclusió
 Els tres grups s'han creat correctament amb els GID següents:
@@ -59,7 +59,7 @@ sudo nano /etc/skel/benvinguda.txt
 
 **Explicació:** el directori `/etc/skel` ("skeleton") conté els fitxers que es copien al directori personal de cada usuari nou en el moment de crear-lo. Creant-hi el fitxer `benvinguda.txt` amb les normes d'ús del servidor, tots els usuaris futurs el tindran al seu `/home`.
 
-![Fitxer benvinguda.txt a /etc/skel](images/03-skel-benvinguda.png)
+![Fitxer benvinguda.txt a /etc/skel](03-skel-benvinguda.png)
 
 ### 2.2 Carpeta Documents
 
@@ -69,7 +69,7 @@ sudo mkdir /etc/skel/documents
 
 **Explicació:** qualsevol carpeta creada dins de `/etc/skel` es copia (de manera recursiva) al directori personal dels usuaris nous.
 
-![Creació de la carpeta a /etc/skel](images/04-skel-documents.png)
+![Creació de la carpeta a /etc/skel](04-skel-documents.png)
 
 > **Nota:** Linux distingeix entre majúscules i minúscules. L'enunciat demana una carpeta anomenada `Documents`, per la qual cosa la comanda correcta és `sudo mkdir /etc/skel/Documents`.
 
@@ -87,7 +87,7 @@ sudo nano /etc/skel/.bashrc
 
 **Explicació:** `.bashrc` és el fitxer de configuració que Bash llegeix cada cop que un usuari obre un terminal interactiu. Un alias és un àlies curt per a una comanda més llarga: a partir d'ara, escriure `ll` executarà `ls -la --color=auto` (llistat llarg amb fitxers ocults i colors).
 
-![Alias ll al .bashrc de /etc/skel](images/05-skel-bashrc-alias.png)
+![Alias ll al .bashrc de /etc/skel](05-skel-bashrc-alias.png)
 
 ### 2.4 Shell per defecte (`/etc/adduser.conf`)
 
@@ -112,7 +112,7 @@ sudo deluser --remove-home prova23
 
 En la captura es veu que l'opció abreujada `-r` és **ambigua** (`deluser` té dues opcions que comencen per `--remove-`: `--remove-all-files` i `--remove-home`), de manera que cal escriure l'opció completa `--remove-home`.
 
-![Creació de prova23 i error de deluser -r](images/06-prova-adduser-deluser.png)
+![Creació de prova23 i error de deluser -r](06-prova-adduser-deluser.png)
 
 <!-- FALTA CAPTURA: inici de sessió amb prova23 (su - prova23) amb `ls` mostrant benvinguda.txt i Documents, i `ll` funcionant -->
 <!-- FALTA CAPTURA: eliminació correcta de prova23 amb `sudo deluser --remove-home prova23` -->
@@ -145,9 +145,9 @@ sudo usermod -aG devs laura_dev
 
 **Explicació:** `adduser` és un script d'alt nivell, interactiu: crea l'usuari, el seu grup, el directori personal (copiant `/etc/skel`) i demana la contrasenya i les dades personals (nom, telèfon…). Els paràmetres `--home` i `--shell` fixen el directori personal i el shell. Després, `usermod -aG devs` **afegeix** (`-a`, *append*) l'usuari al grup suplementari (`-G`) `devs`; sense `-a`, l'usuari perdria la resta de grups.
 
-![Creació de pau_dev i laura_dev amb adduser](images/07-adduser-pau-laura.png)
+![Creació de pau_dev i laura_dev amb adduser](07-adduser-pau-laura.png)
 
-![Afegint els usuaris al grup devs](images/08-usermod-devs.png)
+![Afegint els usuaris al grup devs](08-usermod-devs.png)
 
 > **Nota:** si es vol que `devs` sigui el **grup principal** (tal com demana la taula), `adduser` ho permet directament amb `--ingroup devs`:
 > `sudo adduser --ingroup devs --home /home/pau_dev --shell /bin/bash pau_dev`. Sense aquesta opció, `adduser` crea un grup privat amb el nom de l'usuari com a grup principal, i `devs` queda com a grup secundari.
@@ -169,7 +169,7 @@ sudo useradd -m -d /home/auditor -s /bin/bash -g auditor auditor
 | `-g` | Grup **principal** |
 | `-G` | Grups **secundaris** |
 
-![Creació de marc_sys i auditor amb useradd](images/09-useradd-marc-auditor.png)
+![Creació de marc_sys i auditor amb useradd](09-useradd-marc-auditor.png)
 
 > Per afegir el nom real amb `useradd` s'utilitza `-c "Marc Soler"` (camp *GECOS*). Amb `adduser`, el nom es pot introduir en la pregunta interactiva *Full Name*.
 
@@ -195,7 +195,7 @@ su - pau_dev
 
 **Explicació:** `chage` gestiona el caducament de contrasenyes. L'opció `-d 0` posa la data de l'últim canvi de contrasenya a 0 (1 de gener de 1970), de manera que el sistema considera la contrasenya caducada i obliga l'usuari a canviar-la en el pròxim inici de sessió. En fer `su - pau_dev` i introduir la contrasenya, el sistema mostra el missatge *"You are required to change your password immediately (administrator enforced)"* i demana la contrasenya actual i la nova.
 
-![chage -d 0 i inici de sessió com a pau_dev](images/10-chage-pau-dev.png)
+![chage -d 0 i inici de sessió com a pau_dev](10-chage-pau-dev.png)
 
 ### Conclusió
 S'han creat els quatre usuaris i es comprova que el sistema obliga `pau_dev` a canviar la contrasenya abans de poder entrar. La diferència pràctica entre `adduser` (interactiu, amb valors per defecte de `/etc/adduser.conf`) i `useradd` (baix nivell, tot per paràmetres) és que amb `useradd` s'ha d'indicar explícitament `-m` per crear el `/home`.
@@ -210,7 +210,7 @@ S'han creat els quatre usuaris i es comprova que el sistema obliga `pau_dev` a c
 id marc_sys
 ```
 
-![Sortida de id marc_sys](images/11-id-marc-sys.png)
+![Sortida de id marc_sys](11-id-marc-sys.png)
 
 **Resposta:** la comanda `id` mostra la identitat de l'usuari:
 
@@ -226,7 +226,7 @@ sudo grep pau_dev /etc/shadow
 ls -l /etc/shadow
 ```
 
-![Entrada de pau_dev a /etc/shadow](images/12-shadow-bloqueig-pau.png)
+![Entrada de pau_dev a /etc/shadow](12-shadow-bloqueig-pau.png)
 
 <!-- FALTA CAPTURA: `grep pau_dev /etc/passwd` i `ls -l /etc/shadow` -->
 
@@ -265,7 +265,7 @@ sudo usermod -U pau_dev
 
 **Explicació:** `usermod -U` (*unlock*) elimina el `!` del *hash* i el compte torna a estar operatiu amb la mateixa contrasenya.
 
-![Desbloqueig de pau_dev](images/13-desbloqueig-pau.png)
+![Desbloqueig de pau_dev](13-desbloqueig-pau.png)
 
 <!-- FALTA CAPTURA (opcional): `sudo grep pau_dev /etc/shadow` després del desbloqueig, sense el '!' -->
 
@@ -277,7 +277,7 @@ sudo deluser --remove-home auditor
 
 **Explicació:** `deluser` elimina l'usuari del sistema. L'opció `--remove-home` elimina també el seu directori personal i la seva bústia de correu (*mail spool*), de manera que no queden dades de l'auditor extern al servidor.
 
-![Eliminació de l'usuari auditor](images/14-deluser-auditor.png)
+![Eliminació de l'usuari auditor](14-deluser-auditor.png)
 
 ### Conclusió
 Bloquejar és una mesura **temporal i reversible** (vacances), mentre que eliminar amb `--remove-home` és **permanent** (l'usuari ha deixat l'empresa).
@@ -298,9 +298,9 @@ sudo apt install fish
 
 **Explicació:** `apt update` actualitza la llista de paquets disponibles als repositoris, i `apt install fish` descarrega i instal·la el shell `fish`.
 
-![apt update](images/15-apt-update.png)
+![apt update](15-apt-update.png)
 
-![Instal·lació de fish (historial)](images/16-apt-install-fish.png)
+![Instal·lació de fish (historial)](16-apt-install-fish.png)
 
 ### 6.2 Canvi de shell de `laura_dev`
 
@@ -313,7 +313,7 @@ grep laura_dev /etc/passwd
 
 **Comprovació:** la línia de `laura_dev` acaba ara en `/usr/bin/fish`, en lloc de `/bin/bash`.
 
-![Canvi de shell i comprovació a /etc/passwd](images/17-chsh-laura-fish.png)
+![Canvi de shell i comprovació a /etc/passwd](17-chsh-laura-fish.png)
 
 ### 6.3 Comprovació amb inici de sessió
 
@@ -323,7 +323,7 @@ su - laura_dev
 
 **Explicació:** `su -` inicia una sessió completa (*login shell*) com a `laura_dev`, per la qual cosa s'executa el shell definit al seu compte.
 
-![Inici de sessió com a laura_dev amb fish](images/18-su-laura-fish.png)
+![Inici de sessió com a laura_dev amb fish](18-su-laura-fish.png)
 
 ### Conclusió
 En iniciar sessió, apareix el missatge *"Welcome to fish, the friendly interactive shell"* i el *prompt* ha canviat, la qual cosa confirma que `laura_dev` ja utilitza `fish`. Cal tenir present que `fish` no és compatible amb l'estàndard POSIX, per la qual cosa els scripts escrits per a Bash/sh no sempre funcionaran directament en aquest shell.
