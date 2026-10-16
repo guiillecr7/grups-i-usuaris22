@@ -255,7 +255,7 @@ sudo grep pau_dev /etc/shadow
 
 **Comprovació:** en la captura, el segon camp de la línia de `pau_dev` a `/etc/shadow` comença per `!$y$...`, la qual cosa confirma que el compte està bloquejat.
 
-![Bloqueig de pau_dev i comprovació a /etc/shadow](images/12-shadow-bloqueig-pau.png)
+![Bloqueig de pau_dev i comprovació a /etc/shadow](12-shadow-bloqueig-pau.png)
 
 ### 5.2 Desbloquejar el compte
 
