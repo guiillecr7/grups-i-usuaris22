@@ -31,7 +31,7 @@ tail -n 5 /etc/group
 
 Per verificar-ho es consulten les últimes línies de `/etc/group` amb `tail`. Cada línia té el format `nom:x:GID:membres`.
 
-![Creació dels grups](images/01-grups-creacio.png)
+![Creació dels grups](01-grups-creacio.png)
 
 ![Últimes línies de /etc/group](images/02-grups-tail-etc-group.png)
 
